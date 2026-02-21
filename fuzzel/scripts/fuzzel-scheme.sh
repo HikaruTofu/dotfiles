@@ -46,13 +46,13 @@ if [ -n "$SELECTED" ]; then
     SELECTED="${SELECTED#  }"
 
     cat > "$CONFIG_FILE" <<EOF
-        SCHEME="$SELECTED"
-        TAGS="$TAGS"
-        RATING="$RATING"
-        RES="$RES"
-        ENGINE="$ENGINE"
-        WALLPAPER="$WALLPAPER"
-    EOF
+SCHEME="$SELECTED"
+TAGS="$TAGS"
+RATING="$RATING"
+RES="$RES"
+ENGINE="$ENGINE"
+WALLPAPER="$WALLPAPER"
+EOF
 
     if [ -f "$HOME/.cache/current_wallpaper" ]; then
         CURRENT_WALL=$(cat "$HOME/.cache/current_wallpaper")
