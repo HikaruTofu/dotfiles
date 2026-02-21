@@ -7,7 +7,7 @@ MENU="-       Clear History\n$HISTORY"
 SELECTED=$(echo -e "$MENU" | fuzzel --dmenu -p "Clipboard: " --width 60)
 
 if [ "$SELECTED" == "-       Clear History" ]; then
-    CONFIRM=$(echo -e "No\nYes" | fuzzel --dmenu -p "Delete ALL History? " --lines 2 --width 30)
+    CONFIRM=$(echo -e "No\nYes" | fuzzel --dmenu -p "Delete ALL History? " --lines 2 --width 20)
     if [ "$CONFIRM" == "Yes" ]; then
         cliphist wipe
         notify-send "Clipboard" "History Cleared"

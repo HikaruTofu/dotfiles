@@ -240,7 +240,7 @@ binds {
     Mod+Space { spawn "fuzzel"; }
 
     Mod+P { spawn "~/.config/fuzzel/scripts/fuzzel-power.sh"; }
-    Mod+S { spawn "~/.config/fuzzel/scripts/fuzzel-powerprofile.sh"; }
+    Mod+O { spawn "~/.config/fuzzel/scripts/fuzzel-powerprofile.sh"; }
     Mod+Slash { spawn "~/.config/fuzzel/scripts/fuzzel-wallpaper.sh"; }
     Mod+Period { spawn "~/.config/fuzzel/scripts/fuzzel-scheme.sh"; }
     Mod+V       { spawn "~/.config/fuzzel/scripts/fuzzel-clipboard.sh"; }

@@ -23,8 +23,10 @@ text-color={{colors.on_error_container.default.hex}}
 # Notifikasi Volume & Brightness - PAKSA OREN
 [app-name="Volume"]
 border-color={{colors.primary.default.hex}}
+text-color={{colors.background.default.hex}}
 progress-color=over {{colors.primary.default.hex}}
 
 [app-name="Brightness"]
 border-color={{colors.primary.default.hex}}
+text-color={{colors.background.default.hex}}
 progress-color=over {{colors.primary.default.hex}}

@@ -17,7 +17,7 @@ else
     OPTIONS="$OPTIONS\nPower Saver"
 fi
 
-SELECTED=$(echo -e "$OPTIONS" | fuzzel --dmenu -p "Power Profile ($CURRENT): " --lines 3 --width 25)
+SELECTED=$(echo -e "$OPTIONS" | fuzzel --dmenu -p "Power Profile:" --lines 3 --width 20)
 
 case $SELECTED in
     *"Performance")

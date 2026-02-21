@@ -1,10 +1,10 @@
 # Material You colors for Mako
 
-background-color=#202018
-text-color=#e5e3d6
-border-color=#c3cd7b
+background-color=#201f20
+text-color=#e5e2e2
+border-color=#c4c6cf
 border-size=0
-progress-color=over #c3cd7b
+progress-color=over #c4c6cf
 
 # Per-mode settings
 
@@ -22,9 +22,11 @@ text-color=#ffdad6
 
 # Notifikasi Volume & Brightness - PAKSA OREN
 [app-name="Volume"]
-border-color=#c3cd7b
-progress-color=over #c3cd7b
+border-color=#c4c6cf
+text-color=#131314
+progress-color=over #c4c6cf
 
 [app-name="Brightness"]
-border-color=#c3cd7b
-progress-color=over #c3cd7b
+border-color=#c4c6cf
+text-color=#131314
+progress-color=over #c4c6cf

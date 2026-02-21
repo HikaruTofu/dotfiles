@@ -15,6 +15,8 @@ SCHEME="${SCHEME:-tonal-spot}"
 TAGS="${TAGS:-}"
 RATING="${RATING:-any}"
 RES="${RES:-Any}"
+ENGINE="${ENGINE:-awww}"
+WALLPAPER="${WALLPAPER:-}"
 
 # Save function to easily write config
 save_config() {
@@ -23,11 +25,13 @@ SCHEME="$SCHEME"
 TAGS="$TAGS"
 RATING="$RATING"
 RES="$RES"
+ENGINE="$ENGINE"
+WALLPAPER="$WALLPAPER"
 EOF
 }
 
-SOURCE_OPTS="Local\nOnline"
-SOURCE_SELECTED=$(echo -e "$SOURCE_OPTS" | fuzzel --dmenu -p "Source:" --lines 2 --width 20)
+SOURCE_OPTS="Local\nOnline\nVideo"
+SOURCE_SELECTED=$(echo -e "$SOURCE_OPTS" | fuzzel --dmenu -p "Source:" --lines 3 --width 20)
 
 if [ -z "$SOURCE_SELECTED" ]; then
     exit 0
@@ -51,12 +55,18 @@ if [ "$SOURCE_SELECTED" == "Local" ]; then
         FULL_PATH="$WALLPAPER_DIR/$SELECTED"
         echo "$FULL_PATH" > "$HOME/.cache/current_wallpaper"
 
+        pgrep -x mpvpaper > /dev/null && pkill mpvpaper
+
         awww img "$FULL_PATH" \
             --transition-type grow \
             --transition-pos 0.5,0.5 \
             --transition-step 90 \
             --transition-fps 60
-        
+
+        ENGINE="awww"
+        WALLPAPER="$FULL_PATH"
+        save_config
+
         SELECTED_INFO="$SELECTED"
     else
         exit 0
@@ -64,8 +74,8 @@ if [ "$SOURCE_SELECTED" == "Local" ]; then
 
 elif [ "$SOURCE_SELECTED" == "Online" ]; then
     while true; do
-        LOOP_OPTS="Apply\nTags: ${TAGS:-(none)}\nRating: $RATING\nMin Res: $RES\nBack"
-        LOOP_SELECTED=$(echo -e "$LOOP_OPTS" | fuzzel --dmenu -p "Konachan:" --lines 5 --width 40)
+        LOOP_OPTS="Apply\nTags: ${TAGS:-(none)}\nRating: $RATING\nMin Res: $RES"
+        LOOP_SELECTED=$(echo -e "$LOOP_OPTS" | fuzzel --dmenu -p "Select Options:" --lines 4 --width 40)
 
         if [ -z "$LOOP_SELECTED" ]; then
             exit 0
@@ -76,12 +86,27 @@ elif [ "$SOURCE_SELECTED" == "Online" ]; then
         elif [[ "$LOOP_SELECTED" == Apply* ]]; then
             break
         elif [[ "$LOOP_SELECTED" == Tags:* ]]; then
-            NEW_TAGS=$(echo -e "${TAGS}\n(clear)" | fuzzel --dmenu -p "Enter Tags:" --lines 2 --width 40)
-            if [ -n "$NEW_TAGS" ]; then
+            if [ -n "$TAGS" ]; then
+                CURRENT_TAG_LIST=$(echo "$TAGS" | tr ' ' '\n')
+                TAG_OPTS="$CURRENT_TAG_LIST"
+                NEW_TAGS=$(echo -e "$TAG_OPTS" | fuzzel --dmenu -p "Add Tags:" --lines 6 --width 40)
+            fi
+
+            if [ -n "$NEW_TAGS" ] && [ "$NEW_TAGS" != "(done)" ]; then
                 if [ "$NEW_TAGS" == "(clear)" ] || [ "$NEW_TAGS" == "(none)" ]; then
                     TAGS=""
                 else
-                    TAGS="$NEW_TAGS"
+                    FORMATTED_TAG=$(echo "$NEW_TAGS" | tr ' ' '_')
+
+                    if echo " $TAGS " | grep -q " $FORMATTED_TAG "; then
+                        TAGS=$(echo " $TAGS " | sed "s/ $FORMATTED_TAG / /g" | xargs)
+                    else
+                        if [ -z "$TAGS" ]; then
+                            TAGS="$FORMATTED_TAG"
+                        else
+                            TAGS="$TAGS $FORMATTED_TAG"
+                        fi
+                    fi
                 fi
                 save_config
             fi
@@ -102,7 +127,6 @@ elif [ "$SOURCE_SELECTED" == "Online" ]; then
         fi
     done
 
-    # Build query tags
     QUERY_TAGS="order:random"
     if [ "$RATING" != "any" ]; then
         QUERY_TAGS="$QUERY_TAGS rating:$RATING"
@@ -112,35 +136,37 @@ elif [ "$SOURCE_SELECTED" == "Online" ]; then
         HEIGHT="${RES##*x}"
         QUERY_TAGS="$QUERY_TAGS width:$WIDTH.. height:$HEIGHT.."
     fi
+
     if [ -n "$TAGS" ]; then
-        QUERY_TAGS="$QUERY_TAGS $TAGS"
+        read -r -a TAG_ARRAY <<< "$TAGS"
+        RANDOM_INDEX=$((RANDOM % ${#TAG_ARRAY[@]}))
+        SELECTED_RANDOM_TAG="${TAG_ARRAY[$RANDOM_INDEX]}"
+
+        QUERY_TAGS="$QUERY_TAGS $SELECTED_RANDOM_TAG"
+        SELECTED_INFO="Wallpaper (Tag: $SELECTED_RANDOM_TAG)"
+    else
+        SELECTED_INFO="Wallpaper (Random)"
     fi
-    
-    # URL encode tags
-    ENCODED_TAGS=$(echo "$QUERY_TAGS" | sed 's/ /+/g')
+
+    ENCODED_TAGS=$(echo "$QUERY_TAGS" | jq -sRr @uri)
     API="https://konachan.net/post.json?limit=1&tags=$ENCODED_TAGS"
 
     notify-send "Fetching Wallpaper..." "Querying Konachan API"
 
-    # Fetch from API
     RESPONSE=$(curl -s -L "$API")
     URL=$(echo "$RESPONSE" | jq -r '.[0].file_url')
 
-    # Verify URL
     if [ "$URL" = "null" ] || [ -z "$URL" ]; then
-        notify-send "Konahchan Error" "Could not find image matching those tags." -u critical
+        notify-send "Wallpaper Error" "Could not find image matching those tags." -u critical
         exit 1
     fi
 
-    # Set up Download Directory
     DL_DIR="$HOME/Pictures/Wallpapers/Konachan"
     mkdir -p "$DL_DIR"
 
-    # Download it
     FILENAME=$(basename "$URL")
     FULL_PATH="$DL_DIR/$FILENAME"
 
-    # Jika file sudah ada, skip download
     if [ -s "$FULL_PATH" ]; then
         notify-send "Using Existing..." "Wallpaper already downloaded: $FILENAME"
     else
@@ -148,26 +174,59 @@ elif [ "$SOURCE_SELECTED" == "Online" ]; then
         curl -s -L "$URL" -o "$FULL_PATH"
 
         if [ ! -s "$FULL_PATH" ]; then
-            notify-send "Konahchan Error" "Failed to download image." -u critical
+            notify-send "Wallpaper Error" "Failed to download image." -u critical
             exit 1
         fi
     fi
 
     echo "$FULL_PATH" > "$HOME/.cache/current_wallpaper"
 
-    # Apply via awww
+    pgrep -x mpvpaper > /dev/null && pkill mpvpaper
+
     awww img "$FULL_PATH" \
         --transition-type grow \
         --transition-pos 0.5,0.5 \
         --transition-step 90 \
         --transition-fps 60
-    
-    SELECTED_INFO="Konachan Online (Tags: $TAGS)"
+
+    ENGINE="awww"
+    WALLPAPER="$FULL_PATH"
+    save_config
+elif [ "$SOURCE_SELECTED" == "Video" ]; then
+    mapfile -t FILES < <(find "$WALLPAPER_DIR" -type f -iname "*.mp4")
+
+    DISPLAY_LIST=""
+    for file in "${FILES[@]}"; do
+        DISPLAY_LIST+="$(basename "$file")"$'\n'
+    done
+
+    SELECTED=$(echo "$DISPLAY_LIST" | fuzzel --dmenu -p "Select Video:" --lines 15 --width 40)
+
+    if [ -n "$SELECTED" ]; then
+        FULL_PATH="$WALLPAPER_DIR/$SELECTED"
+        echo "$FULL_PATH" > "$HOME/.cache/current_wallpaper"
+
+        FRAME_PATH="/tmp/video_frame.jpg"
+        notify-send "Processing Video..." "Extracting frame for colors"
+        ffmpeg -y -i "$FULL_PATH" -ss 00:00:02 -vframes 1 "$FRAME_PATH" 2>/dev/null
+
+        awww clear 2>/dev/null
+        pgrep -x mpvpaper > /dev/null && pkill mpvpaper
+        
+        nohup mpvpaper -vs -o "loop=inf no-audio hwdec=auto profile=fast" "*" "$FULL_PATH" > /dev/null 2>&1 &
+
+        ENGINE="mpvpaper"
+        WALLPAPER="$FULL_PATH"
+        save_config
+        
+        export FULL_PATH="$FRAME_PATH"
+        SELECTED_INFO="$SELECTED"
+    else
+        exit 0
+    fi
 fi
 
-# Apply Matugen and notify
 if [ -n "$FULL_PATH" ]; then
-    # Generate dengan scheme type argument
     matugen image "$FULL_PATH" -m dark -t "scheme-$SCHEME"
 
     pgrep -x waybar > /dev/null && pkill -SIGUSR2 waybar
@@ -175,4 +234,3 @@ if [ -n "$FULL_PATH" ]; then
 
     notify-send "Wallpaper & Colors Updated" "$SELECTED_INFO (scheme: $SCHEME)" -i wallpaper
 fi
-
