@@ -1,0 +1,49 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "width": 1900,
+  "spacing": 5,
+  "margin": "8 4 4 8",
+  "reload_style_on_change": true,
+
+  "modules-left": ["niri/workspaces", "custom/media"],
+  "modules-right": ["battery", "custom/separator", "clock"],
+
+  "niri/workspaces": {
+    "disable-click": true,
+  },
+
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15,
+    },
+    "format": "BAT {capacity}%",
+    "format-charging": "CHG {capacity}%",
+    "format-plugged": "PLG {capacity}%",
+    "format-alt": "BAT {time}",
+  },
+
+  "custom/separator": {
+    "format": "|",
+    "tooltip": false,
+  },
+
+  "clock": {
+    "format": "{:%Y年%m月%d日 %H:%M:%S} [UTC+8]",
+    "format-alt": "{:%Y年%m月%d日 %H:%M} [UTC+8]",
+    "interval": 1,
+    "tooltip-format": "{:%Y年%m月%d日 %A}",
+  },
+
+  "custom/media": {
+    "exec": "~/.config/waybar/scripts/mediaplayer.sh",
+    "interval": 3,
+    "tooltip": false,
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous",
+  },
+}

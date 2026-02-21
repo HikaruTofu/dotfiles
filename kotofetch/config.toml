@@ -1,0 +1,14 @@
+[display]
+horizontal_padding = 3
+vertical_padding = 1
+width = 100
+show_translation = "romaji"
+translation_color = "#888888"
+font_size = "medium"
+bold = true
+border = false
+rounded_border = false
+source = false
+modes = ["proverb", "anime"]
+seed = 0
+centered = false

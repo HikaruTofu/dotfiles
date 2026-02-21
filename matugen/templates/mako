@@ -1,0 +1,30 @@
+# Material You colors for Mako
+
+background-color={{colors.surface_container.default.hex}}
+text-color={{colors.on_surface.default.hex}}
+border-color={{colors.primary.default.hex}}
+border-size=0
+progress-color=over {{colors.primary.default.hex}}
+
+# Per-mode settings
+
+[mode=do-not-disturb]
+invisible=1
+on-notify=none
+
+[mode=silent]
+on-notify=none
+
+[urgency=high]
+border-color={{colors.error.default.hex}}
+background-color={{colors.error_container.default.hex}}
+text-color={{colors.on_error_container.default.hex}}
+
+# Notifikasi Volume & Brightness - PAKSA OREN
+[app-name="Volume"]
+border-color={{colors.primary.default.hex}}
+progress-color=over {{colors.primary.default.hex}}
+
+[app-name="Brightness"]
+border-color={{colors.primary.default.hex}}
+progress-color=over {{colors.primary.default.hex}}

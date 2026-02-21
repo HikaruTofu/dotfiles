@@ -1,0 +1,347 @@
+environment {
+    QS_ICON_THEME "Papirus-Dark"
+    XDG_CURRENT_DESKTOP "niri"
+    QT_QPA_PLATFORMTHEME "qt6ct"
+}
+
+// -------------------------------------------------------------------------
+// Startup Applications
+// -------------------------------------------------------------------------
+
+spawn-sh-at-startup "waybar"
+spawn-at-startup "swww-daemon"
+spawn-at-startup "mako"
+
+spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+
+spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
+spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
+
+// -------------------------------------------------------------------------
+// Workspaces
+// -------------------------------------------------------------------------
+
+// -------------------------------------------------------------------------
+// Input & Cursor
+// -------------------------------------------------------------------------
+
+input {
+    keyboard {
+        xkb {
+            layout "us"
+        }
+        repeat-delay 200
+        repeat-rate 30
+    }
+
+    touchpad {
+        tap
+        drag true
+        drag-lock
+        natural-scroll
+        accel-speed 0.4
+        scroll-method "two-finger"
+        click-method "clickfinger"
+        dwt
+    }
+
+    mouse {
+        accel-speed 0.4
+    }
+
+    focus-follows-mouse max-scroll-amount="0%"
+    warp-mouse-to-focus
+}
+
+cursor {
+    xcursor-theme "Adwaita"
+    xcursor-size 20
+    hide-when-typing
+    hide-after-inactive-ms 3000
+}
+
+// -------------------------------------------------------------------------
+// Output & Layout
+// -------------------------------------------------------------------------
+
+output "eDP-1" {
+    mode custom=true "1920x1080@60"
+    scale 1.0
+    position x=0 y=0
+}
+
+layout {
+    gaps 5
+    center-focused-column "never"
+    background-color "transparent"
+
+    preset-column-widths {
+        proportion 0.5
+        proportion 0.8
+        proportion 1.0
+    }
+
+    default-column-width { proportion 0.8; }
+
+    preset-window-heights {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+
+    focus-ring {
+        off
+        width 0
+    }
+
+    border {
+        off
+    }
+
+    shadow {
+        on
+        softness 30
+        spread 7
+        offset x=0 y=5
+        color "#0007"
+    }
+
+    struts {
+        left 5
+        right 5
+        top 5
+        bottom 5
+    }
+}
+
+// -------------------------------------------------------------------------
+// Animations
+// -------------------------------------------------------------------------
+
+animations {
+    workspace-switch {
+        duration-ms 700
+        curve "cubic-bezier" 0.22 1 0.36 1
+    }
+
+    window-open {
+        duration-ms 850
+        curve "cubic-bezier" 0.22 1.2 0.36 1
+    }
+
+    window-close {
+        duration-ms 850
+        curve "cubic-bezier" 0.22 1.3 0.36 1
+    }
+
+    horizontal-view-movement {
+        duration-ms 850
+        curve "cubic-bezier" 0.22 1.3 0.36 1
+    }
+
+    window-movement {
+        duration-ms 850
+        curve "cubic-bezier" 0.22 1.3 0.36 1
+    }
+
+    window-resize {
+        duration-ms 850
+        curve "cubic-bezier" 0.22 1.3 0.36 1
+    }
+
+    config-notification-open-close {
+        duration-ms 850
+        curve "cubic-bezier" 0.22 1.3 0.36 1
+    }
+
+    exit-confirmation-open-close {
+        duration-ms 850
+        curve "cubic-bezier" 0.22 1.3 0.36 1
+    }
+
+    screenshot-ui-open {
+        duration-ms 850
+        curve "cubic-bezier" 0.22 1.3 0.36 1
+    }
+
+    overview-open-close {
+        duration-ms 600
+        curve "cubic-bezier" 0.22 1.0 0.36 1
+    }
+
+    recent-windows-close {
+        duration-ms 850
+        curve "cubic-bezier" 0.22 1.3 0.36 1
+    }
+}
+
+// -------------------------------------------------------------------------
+// Window & Layer Rules
+// -------------------------------------------------------------------------
+
+window-rule {
+    match app-id="Spotify"
+    open-on-workspace "4"
+}
+
+window-rule {
+    match app-id="org.gnome.Nautilus"
+    opacity 1.0  // <- SOLID
+}
+
+
+window-rule {
+    geometry-corner-radius 10
+    clip-to-geometry true
+}
+
+layer-rule {
+    match namespace="^swww-daemon$"
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="waybar"
+    shadow {
+        on
+        softness 30
+        spread 3
+        offset x=0 y=10
+    }
+    geometry-corner-radius 10
+}
+
+layer-rule {
+    match namespace="rofi"
+    shadow {
+        on
+        softness 30
+        spread 5
+        offset x=0 y=10
+        color "#00000080"
+    }
+    geometry-corner-radius 20
+}
+
+
+// -------------------------------------------------------------------------
+// Keybindings
+// -------------------------------------------------------------------------
+
+binds {
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    Mod+Return { spawn "foot"; }
+    Mod+E { spawn "nautilus"; }
+    Mod+W { spawn "zen-browser"; }
+
+    Mod+Space { spawn "fuzzel"; }
+
+    Mod+P { spawn "~/.config/fuzzel/scripts/fuzzel-power.sh"; }
+    Mod+S { spawn "~/.config/fuzzel/scripts/fuzzel-powerprofile.sh"; }
+    Mod+Slash { spawn "~/.config/fuzzel/scripts/fuzzel-wallpaper.sh"; }
+    Mod+Period { spawn "~/.config/fuzzel/scripts/fuzzel-scheme.sh"; }
+    Mod+V       { spawn "~/.config/fuzzel/scripts/fuzzel-clipboard.sh"; }
+
+    Mod+L { spawn "hyprlock"; }
+    Mod+Shift+R { spawn "sh" "-c" "notify-send 'Niri' 'Config reloaded' && niri msg reload-config"; }
+
+    // Media Controls
+    XF86AudioPlay { spawn "playerctl" "play-pause"; }
+    XF86AudioStop { spawn "playerctl" "stop"; }
+    XF86AudioNext { spawn "playerctl" "next"; }
+    XF86AudioPrev { spawn "playerctl" "previous"; }
+    Mod+Ctrl+Space { spawn "playerctl" "play-pause"; }
+
+    // Volume & Brightness
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "~/.config/fuzzel/scripts/volume.sh" "up"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "~/.config/fuzzel/scripts/volume.sh" "down"; }
+    XF86AudioMute        allow-when-locked=true { spawn "~/.config/fuzzel/scripts/volume.sh" "mute"; }
+
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "~/.config/fuzzel/scripts/brightness.sh" "up"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "~/.config/fuzzel/scripts/brightness.sh" "down"; }
+
+    // Navigation & Window Management
+    Mod+Tab repeat=false { toggle-overview; }
+    Mod+Q { close-window; }
+    Mod+F { fullscreen-window; }
+    Mod+A { maximize-column; }
+    Mod+N { switch-preset-column-width; }
+    Mod+Shift+X { switch-preset-window-height; }
+    Mod+Ctrl+X { reset-window-height; }
+    Mod+BracketLeft { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // Left/Right navigates between columns
+    Mod+Left { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Up { focus-workspace-up; }
+    Mod+Down { focus-workspace-down; }
+
+    // Move/exchange windows
+    Mod+Ctrl+Left { move-column-left; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+Up { move-window-up; }
+    Mod+Ctrl+Down { move-window-down; }
+
+    // Focus first/last column
+    Mod+Home { focus-column-first; }
+    Mod+End { focus-column-last; }
+
+    // Workspaces
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+
+    // Move window to workspace
+    Mod+Ctrl+1 { move-window-to-workspace 1; }
+    Mod+Ctrl+2 { move-window-to-workspace 2; }
+    Mod+Ctrl+3 { move-window-to-workspace 3; }
+    Mod+Ctrl+4 { move-window-to-workspace 4; }
+    Mod+Ctrl+5 { move-window-to-workspace 5; }
+    Mod+Ctrl+6 { move-window-to-workspace 6; }
+    Mod+Ctrl+7 { move-window-to-workspace 7; }
+    Mod+Ctrl+8 { move-window-to-workspace 8; }
+    Mod+Ctrl+9 { move-window-to-workspace 9; }
+
+    // Navigate workspaces (Page Up/Down)
+    Mod+Page_Up { focus-workspace-up; }
+    Mod+Page_Down { focus-workspace-down; }
+    Mod+Ctrl+Page_Up { move-window-to-workspace-up; }
+    Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
+
+    // Move entire column to workspace
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+
+    // Misc
+    Mod+Shift+S { screenshot; }
+    Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    Mod+Shift+backslash { quit; }
+}
+
+prefer-no-csd
+hotkey-overlay { skip-at-startup; }
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"

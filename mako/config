@@ -1,0 +1,27 @@
+include=~/.config/mako/mako-colors
+
+font=JetBrainsMono Nerd Font 11
+
+width=300
+height=80
+margin=10
+padding=12
+border-size=0
+border-radius=8
+
+icons=1
+max-icon-size=32
+icon-location=left
+
+default-timeout=10000
+ignore-timeout=0
+
+[app-name="Volume"]
+width=250
+height=50
+default-timeout=2000
+
+[app-name="Brightness"]
+width=250
+height=50
+default-timeout=2000

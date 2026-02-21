@@ -1,0 +1,131 @@
+@import "colors.css";
+
+@define-color bg @surface;
+@define-color bg-alt @surface_container;
+@define-color text @on_surface;
+@define-color muted @on_surface_variant;
+@define-color accent @primary;
+@define-color accent-text @on_primary;
+@define-color danger @error;
+
+/* Global */
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: 700;
+    font-size: 14px;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+/* Main Bar */
+window#waybar {
+    background-color: alpha(@bg, 0.95);
+    color: @text;
+    border-radius: 10px;
+}
+
+/* Logo */
+#custom-logo {
+    background-color: @accent;
+    color: @accent-text;
+    padding: 0 10px;
+    font-weight: bold;
+    border-radius: 10px 0 0 10px;
+}
+
+/* Workspaces */
+#workspaces {
+    background-color: transparent;
+    margin-left: 0;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    background-color: transparent;
+    color: @muted;
+    min-width: 14px;
+}
+
+#workspaces button:hover {
+    color: @text;
+}
+
+#workspaces button:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+#workspaces button.active {
+    background-color: @accent;
+    color: @accent-text;
+}
+
+#workspaces button.active:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+#workspaces button.empty {
+    color: alpha(@muted, 0.5);
+}
+
+#workspaces button.active.empty {
+    background-color: @accent;
+    color: @accent-text;
+}
+
+/* Media */
+#custom-media {
+    margin-left: 6px;
+    color: @text;
+}
+
+#custom-media.paused {
+    color: alpha(@muted, 0.5);
+}
+
+/* Separator */
+#custom-separator {
+    color: alpha(@muted, 0.6);
+    padding: 0 6px;
+}
+
+/* Tray */
+#tray {
+    background-color: transparent;
+    padding: 0 8px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+/* Power / Clock / Battery */
+#power-profiles-daemon,
+#clock,
+#battery {
+    color: @text;
+    padding: 0 10px;
+}
+
+#battery.charging {
+    color: @text;
+}
+
+#battery.warning {
+    color: @text;
+}
+
+#battery.critical {
+    color: @text;
+}
+
+/* Optional subtle container look */
+.modules-left,
+.modules-center,
+.modules-right {
+    background-color: transparent;
+}
