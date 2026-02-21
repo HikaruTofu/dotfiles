@@ -9,7 +9,7 @@ environment {
 // -------------------------------------------------------------------------
 
 spawn-sh-at-startup "waybar"
-spawn-at-startup "swww-daemon"
+spawn-at-startup "awww-daemon"
 spawn-at-startup "mako"
 
 spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
@@ -198,7 +198,7 @@ window-rule {
 }
 
 layer-rule {
-    match namespace="^swww-daemon$"
+    match namespace="^awww-daemon$"
     place-within-backdrop true
 }
 

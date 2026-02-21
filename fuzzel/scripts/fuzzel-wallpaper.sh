@@ -30,7 +30,7 @@ if [ -n "$SELECTED" ]; then
 
     echo "$FULL_PATH" > "$HOME/.cache/current_wallpaper"
 
-    swww img "$FULL_PATH" \
+    awww img "$FULL_PATH" \
         --transition-type grow \
         --transition-pos 0.5,0.5 \
         --transition-step 90 \
