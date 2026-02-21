@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_FILE="$HOME/.config/matugen/settings.conf"
+CONFIG_FILE="$HOME/.config/fireflyshell/options.conf"
 mkdir -p "$(dirname "$CONFIG_FILE")"
 
 if [ -f "$CONFIG_FILE" ]; then
@@ -9,6 +9,11 @@ if [ -f "$CONFIG_FILE" ]; then
 else
     CURRENT="tonal-spot"
 fi
+
+# Fallback values for other config
+TAGS="${TAGS:-}"
+RATING="${RATING:-any}"
+RES="${RES:-Any}"
 
 SCHEMES=(
     "content"
@@ -39,7 +44,12 @@ if [ -n "$SELECTED" ]; then
     SELECTED="${SELECTED#\* }"
     SELECTED="${SELECTED#  }"
 
-    echo "SCHEME=$SELECTED" > "$CONFIG_FILE"
+    cat > "$CONFIG_FILE" <<EOF
+SCHEME="$SELECTED"
+TAGS="$TAGS"
+RATING="$RATING"
+RES="$RES"
+EOF
 
     if [ -f "$HOME/.cache/current_wallpaper" ]; then
         CURRENT_WALL=$(cat "$HOME/.cache/current_wallpaper")
