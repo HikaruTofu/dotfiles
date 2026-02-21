@@ -246,7 +246,7 @@ binds {
     Mod+V       { spawn "~/.config/fuzzel/scripts/fuzzel-clipboard.sh"; }
 
     Mod+L { spawn "hyprlock"; }
-    Mod+B { spawn "pkill" "-SIGUSR1" "waybar"; }
+    Mod+B { spawn "sh" "-c" "pgrep -x waybar > /dev/null && pkill -x waybar || waybar"; }
     Mod+Shift+R { spawn "sh" "-c" "notify-send 'Niri' 'Config reloaded' && niri msg reload-config"; }
 
     // Media Controls
