@@ -246,6 +246,7 @@ binds {
     Mod+V       { spawn "~/.config/fuzzel/scripts/fuzzel-clipboard.sh"; }
 
     Mod+L { spawn "hyprlock"; }
+    Mod+B { spawn "pkill" "-SIGUSR1" "waybar"; }
     Mod+Shift+R { spawn "sh" "-c" "notify-send 'Niri' 'Config reloaded' && niri msg reload-config"; }
 
     // Media Controls
@@ -269,6 +270,7 @@ binds {
     Mod+F { fullscreen-window; }
     Mod+A { maximize-column; }
     Mod+N { switch-preset-column-width; }
+    Mod+M { toggle-window-floating; }
     Mod+Shift+X { switch-preset-window-height; }
     Mod+Ctrl+X { reset-window-height; }
     Mod+BracketLeft { consume-or-expel-window-left; }
