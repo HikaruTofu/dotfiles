@@ -46,7 +46,7 @@ if [ "$SOURCE_SELECTED" == "Local" ]; then
 
     DISPLAY_LIST=""
     for file in "${FILES[@]}"; do
-        DISPLAY_LIST+="$(basename "$file")"$'\n'
+        DISPLAY_LIST+="${file#"$WALLPAPER_DIR/"}"$'\n'
     done
 
     SELECTED=$(echo "$DISPLAY_LIST" | fuzzel --dmenu -p "Select Wallpaper:" --lines 15 --width 40)
@@ -197,7 +197,7 @@ elif [ "$SOURCE_SELECTED" == "Video" ]; then
 
     DISPLAY_LIST=""
     for file in "${FILES[@]}"; do
-        DISPLAY_LIST+="$(basename "$file")"$'\n'
+        DISPLAY_LIST+="${file#"$WALLPAPER_DIR/"}"$'\n'
     done
 
     SELECTED=$(echo "$DISPLAY_LIST" | fuzzel --dmenu -p "Select Video:" --lines 15 --width 40)
