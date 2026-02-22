@@ -87,11 +87,11 @@ elif [ "$SOURCE_SELECTED" == "Online" ]; then
         elif [[ "$LOOP_SELECTED" == Apply* ]]; then
             break
         elif [[ "$LOOP_SELECTED" == Tags:* ]]; then
+            TAG_OPTS="(clear)"
             if [ -n "$TAGS" ]; then
-                CURRENT_TAG_LIST=$(echo "$TAGS" | tr ' ' '\n')
-                TAG_OPTS="$CURRENT_TAG_LIST"
-                NEW_TAGS=$(echo -e "$TAG_OPTS" | fuzzel --dmenu -p "Add Tags:" --lines 6 --width 40)
+                TAG_OPTS="(clear)\n$(echo "$TAGS" | tr ' ' '\n')"
             fi
+            NEW_TAGS=$(echo -e "$TAG_OPTS" | fuzzel --dmenu -p "Add Tags:" --lines 6 --width 40)
 
             if [ -n "$NEW_TAGS" ] && [ "$NEW_TAGS" != "(done)" ]; then
                 if [ "$NEW_TAGS" == "(clear)" ] || [ "$NEW_TAGS" == "(none)" ]; then
