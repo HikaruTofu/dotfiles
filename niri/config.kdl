@@ -9,7 +9,7 @@ environment {
 // -------------------------------------------------------------------------
 
 spawn-sh-at-startup "waybar"
-spawn-at-startup "awww-daemon"
+spawn-sh-at-startup "~/.config/niri/scripts/wallpaper-restore.sh"
 spawn-at-startup "mako"
 
 spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"

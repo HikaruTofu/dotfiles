@@ -11,9 +11,11 @@ case $SELECTION in
         jiri msg action quit
         ;;
     *"Reboot")
+        pgrep -x mpvpaper > /dev/null && pkill mpvpaper
         systemctl reboot
         ;;
     *"Shutdown")
+        pgrep -x mpvpaper > /dev/null && pkill mpvpaper
         systemctl poweroff
         ;;
 esac
