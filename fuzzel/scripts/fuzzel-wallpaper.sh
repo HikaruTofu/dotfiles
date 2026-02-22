@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
-CONFIG_DIR="$HOME/.config/fireflyshell"
+CONFIG_DIR="$HOME/.config/niri"
 CONFIG_FILE="$CONFIG_DIR/options.conf"
 
 mkdir -p "$CONFIG_DIR"
@@ -56,6 +56,7 @@ if [ "$SOURCE_SELECTED" == "Local" ]; then
         echo "$FULL_PATH" > "$HOME/.cache/current_wallpaper"
 
         pgrep -x mpvpaper > /dev/null && pkill mpvpaper
+        pgrep -x awww-daemon > /dev/null || { nohup awww-daemon > /dev/null 2>&1 & sleep 0.2; }
 
         awww img "$FULL_PATH" \
             --transition-type grow \
@@ -182,6 +183,7 @@ elif [ "$SOURCE_SELECTED" == "Online" ]; then
     echo "$FULL_PATH" > "$HOME/.cache/current_wallpaper"
 
     pgrep -x mpvpaper > /dev/null && pkill mpvpaper
+    pgrep -x awww-daemon > /dev/null || { nohup awww-daemon > /dev/null 2>&1 & sleep 0.2; }
 
     awww img "$FULL_PATH" \
         --transition-type grow \

@@ -191,7 +191,6 @@ window-rule {
     opacity 1.0  // <- SOLID
 }
 
-
 window-rule {
     geometry-corner-radius 10
     clip-to-geometry true
@@ -199,6 +198,11 @@ window-rule {
 
 layer-rule {
     match namespace="^awww-daemon$"
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="^mpvpaper$"
     place-within-backdrop true
 }
 
