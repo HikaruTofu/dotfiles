@@ -3,13 +3,13 @@
 window#osd {
     border-radius: 8px;
     border: none;
-    background: @surface_container;
+    background-color: alpha(@surface_container, 1.0);
 }
 
 window#osd #container {
     margin: 16px;
     padding: 0px;
-    background: transparent;
+    background: none;
 }
 
 window#osd image {
