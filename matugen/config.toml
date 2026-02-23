@@ -81,3 +81,8 @@ output_path = '~/.zen/wpzk37fc.Default (release)/chrome/Matugen/userChrome.css'
 [templates.zen_browser_usercontent]
 input_path = '~/.config/matugen/templates/zen-browser/userContent.css'
 output_path = '~/.zen/wpzk37fc.Default (release)/chrome/Matugen/userContent.css'
+
+[templates.swayosd]
+input_path = '~/.config/matugen/templates/swayosd.css'
+output_path = '~/.config/swayosd/style.css'
+post_hook = 'pkill -x swayosd-server ; nohup swayosd-server > /dev/null 2>&1 &'

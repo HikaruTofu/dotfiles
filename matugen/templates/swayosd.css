@@ -1,0 +1,50 @@
+window {
+  box-shadow: none;
+  background: rgba({{colors.surface_container.default.rgb.r}}, {{colors.surface_container.default.rgb.g}}, {{colors.surface_container.default.rgb.b}}, 0.9);
+  padding: 12px;
+  border-radius: 100px;
+  border: 1px solid {{colors.outline_variant.default.hex}};
+}
+
+window > box {
+  background: transparent;
+}
+
+#container {
+  margin: 16px;
+}
+
+image, label {
+  color: {{colors.primary.default.hex}};
+}
+
+/* 
+ * The main container of the progress bar, 
+ * contains the trough and the slider.
+ */
+scale {
+  padding: 0;
+  margin: 0;
+}
+
+/* The trough contains the progress and the slider */
+scale > contents > trough {
+  border-radius: 100px;
+  background: {{colors.surface_variant.default.hex}};
+  min-height: 12px;
+  min-width: 12px;
+}
+
+scale > contents > trough > slider {
+  min-width: 16px;
+  min-height: 16px;
+  background: {{colors.primary_fixed.default.hex}};
+  border-radius: 100%;
+}
+
+scale > contents > trough > highlight {
+  background: {{colors.primary.default.hex}};
+  border-radius: 100px;
+  min-height: 12px;
+  min-width: 12px;
+}
