@@ -8,7 +8,7 @@ SELECTION=$(echo -e "$OPTIONS" | fuzzel --dmenu -p "Power Menu:" --lines 3 --wid
 
 case $SELECTION in
     *"Logout")
-        jiri msg action quit
+        niri msg action quit
         ;;
     *"Reboot")
         pgrep -x mpvpaper > /dev/null && pkill mpvpaper
