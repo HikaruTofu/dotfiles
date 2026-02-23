@@ -1,24 +1,24 @@
 @import "colors.css";
 
 window#osd {
-    border-radius: 10px;
-    border: 2px solid @outline;
-    background: alpha(@surface_container_low, 0.4);
+    border-radius: 8px;
+    border: none;
+    background: @surface_container;
 }
 
 window#osd #container {
-    margin: 6px;
-    padding: 2px;
+    margin: 16px;
+    padding: 0px;
     background: transparent;
 }
 
 window#osd image {
-    -gtk-icon-transform: scale(0.7);
+    -gtk-icon-transform: scale(0.8);
 }
 
 window#osd image,
 window#osd label {
-    color: @primary;
+    color: @on_surface;
 }
 
 window#osd progressbar:disabled,
@@ -27,7 +27,7 @@ window#osd image:disabled {
 }
 
 window#osd progressbar {
-    min-height: 6px;
+    min-height: 8px;
     border-radius: 999px;
     background: transparent;
     border: none;
@@ -37,7 +37,7 @@ window#osd trough {
     min-height: inherit;
     border-radius: inherit;
     border: none;
-    background: alpha(@primary_container, 0.5);
+    background: @surface_variant;
 }
 
 window#osd progress {
