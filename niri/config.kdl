@@ -11,6 +11,7 @@ environment {
 spawn-sh-at-startup "waybar"
 spawn-sh-at-startup "~/.config/niri/scripts/wallpaper-restore.sh"
 spawn-at-startup "mako"
+spawn-at-startup "swayosd-server"
 
 spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
@@ -66,7 +67,8 @@ cursor {
 // -------------------------------------------------------------------------
 
 output "eDP-1" {
-    mode custom=true "1920x1080@60"
+    mode custom=true "2048x1152@60"
+    //mode custom=true "1920x1080@60"
     scale 1.0
     position x=0 y=0
 }
@@ -261,12 +263,12 @@ binds {
     Mod+Ctrl+Space { spawn "playerctl" "play-pause"; }
 
     // Volume & Brightness
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "~/.config/fuzzel/scripts/volume.sh" "up"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "~/.config/fuzzel/scripts/volume.sh" "down"; }
-    XF86AudioMute        allow-when-locked=true { spawn "~/.config/fuzzel/scripts/volume.sh" "mute"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "raise"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "lower"; }
+    XF86AudioMute        allow-when-locked=true { spawn "swayosd-client" "--output-volume" "block-toggle"; }
 
-    XF86MonBrightnessUp   allow-when-locked=true { spawn "~/.config/fuzzel/scripts/brightness.sh" "up"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "~/.config/fuzzel/scripts/brightness.sh" "down"; }
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "swayosd-client" "--brightness" "raise"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "swayosd-client" "--brightness" "lower"; }
 
     // Navigation & Window Management
     Mod+Tab repeat=false { toggle-overview; }
