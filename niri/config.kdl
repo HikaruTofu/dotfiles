@@ -256,16 +256,17 @@ binds {
     Mod+Shift+R { spawn "sh" "-c" "notify-send 'Niri' 'Config reloaded' && niri msg reload-config"; }
 
     // Media Controls
-    XF86AudioPlay { spawn "playerctl" "play-pause"; }
-    XF86AudioStop { spawn "playerctl" "stop"; }
-    XF86AudioNext { spawn "playerctl" "next"; }
-    XF86AudioPrev { spawn "playerctl" "previous"; }
-    Mod+Ctrl+Space { spawn "playerctl" "play-pause"; }
+    XF86AudioPlay { spawn "swayosd-client" "--playerctl" "play-pause"; }
+    XF86AudioStop { spawn "swayosd-client" "--playerctl" "stop"; }
+    XF86AudioNext { spawn "swayosd-client" "--playerctl" "next"; }
+    XF86AudioPrev { spawn "swayosd-client" "--playerctl" "previous"; }
+    Mod+Ctrl+Space { spawn "swayosd-client" "--playerctl" "play-pause"; }
 
     // Volume & Brightness
     XF86AudioRaiseVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "raise"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "lower"; }
-    XF86AudioMute        allow-when-locked=true { spawn "swayosd-client" "--output-volume" "block-toggle"; }
+    XF86AudioMute        allow-when-locked=true { spawn "swayosd-client" "--output-volume" "mute-toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn "swayosd-client" "--input-volume" "mute-toggle"; }
 
     XF86MonBrightnessUp   allow-when-locked=true { spawn "swayosd-client" "--brightness" "raise"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "swayosd-client" "--brightness" "lower"; }
