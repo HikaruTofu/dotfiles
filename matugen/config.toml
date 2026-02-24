@@ -85,4 +85,8 @@ output_path = '~/.zen/wpzk37fc.Default (release)/chrome/Matugen/userContent.css'
 [templates.swayosd]
 input_path = '~/.config/matugen/templates/colors.css'
 output_path = '~/.config/swayosd/colors.css'
-post_hook = 'if pgrep -x swayosd-server >/dev/null 2>&1;then pkill swayosd-server;setsid -f swayosd-server >/dev/null 2>&1;fi'
+post_hook = 'pkill -x swayosd-server; nohup swayosd-server > /dev/null 2>&1 &'
+
+[templates.vscode]
+input_path = '~/.config/matugen/templates/vscode.json'
+output_path = '~/.config/Antigravity/User/settings.json'
