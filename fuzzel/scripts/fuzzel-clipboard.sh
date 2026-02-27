@@ -4,10 +4,10 @@ HISTORY=$(cliphist list)
 
 MENU="-       Clear History\n$HISTORY"
 
-SELECTED=$(echo -e "$MENU" | fuzzel --dmenu -p "Clipboard: " --width 60)
+SELECTED=$(echo -e "$MENU" | fuzzel --dmenu -p "Clipboard: " --lines 10 --width 50)
 
 if [ "$SELECTED" == "-       Clear History" ]; then
-    CONFIRM=$(echo -e "No\nYes" | fuzzel --dmenu -p "Delete ALL History? " --lines 2 --width 20)
+    CONFIRM=$(echo -e "No\nYes" | fuzzel --dmenu -p "Delete ALL History? " --lines 10 --width 50)
     if [ "$CONFIRM" == "Yes" ]; then
         cliphist wipe
         notify-send "Clipboard" "History Cleared"

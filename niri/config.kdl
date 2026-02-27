@@ -244,12 +244,16 @@ binds {
     Mod+W { spawn "zen-browser"; }
 
     Mod+Space { spawn "fuzzel"; }
+    Mod+S { spawn "~/.config/fuzzel/scripts/fuzzel-menu.sh"; }
 
-    Mod+P { spawn "~/.config/fuzzel/scripts/fuzzel-power.sh"; }
-    Mod+O { spawn "~/.config/fuzzel/scripts/fuzzel-powerprofile.sh"; }
     Mod+Slash { spawn "~/.config/fuzzel/scripts/fuzzel-wallpaper.sh"; }
     Mod+Period { spawn "~/.config/fuzzel/scripts/fuzzel-scheme.sh"; }
     Mod+V       { spawn "~/.config/fuzzel/scripts/fuzzel-clipboard.sh"; }
+
+    Print       { spawn "~/.config/fuzzel/scripts/fuzzel-screenshot.sh"; }
+    Ctrl+Print  { spawn "~/.config/fuzzel/scripts/fuzzel-screenshot.sh" "--window"; }
+    Shift+Print { spawn "~/.config/fuzzel/scripts/fuzzel-screenshot.sh" "--region"; }
+    Alt+Print   { spawn "~/.config/fuzzel/scripts/fuzzel-record.sh"; }
 
     Mod+L { spawn "hyprlock"; }
     Mod+B { spawn "sh" "-c" "pgrep -x waybar > /dev/null && pkill -x waybar || waybar"; }
@@ -277,7 +281,7 @@ binds {
     Mod+F { fullscreen-window; }
     Mod+A { maximize-column; }
     Mod+N { switch-preset-column-width; }
-    Mod+M { toggle-window-floating; }
+    Mod+Shift+M { toggle-window-floating; }
     Mod+Shift+X { switch-preset-window-height; }
     Mod+Ctrl+X { reset-window-height; }
     Mod+BracketLeft { consume-or-expel-window-left; }
@@ -345,8 +349,6 @@ binds {
 
     // Misc
     Mod+Shift+S { screenshot; }
-    Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+backslash { quit; }
 }

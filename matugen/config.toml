@@ -32,10 +32,12 @@ output_path = "~/.config/fuzzel/colors.ini"
 [templates.gtk3]
 input_path = '~/.config/matugen/templates/gtk3.css'
 output_path = '~/.config/gtk-3.0/colors.css'
+post_hook = "killall -q nautilus"
 
 [templates.gtk4]
 input_path = '~/.config/matugen/templates/gtk4.css'
 output_path = '~/.config/gtk-4.0/colors.css'
+post_hook = "killall -q nautilus"
 
 [templates.hyprland]
 input_path = '~/.config/matugen/templates/hyprland.conf'

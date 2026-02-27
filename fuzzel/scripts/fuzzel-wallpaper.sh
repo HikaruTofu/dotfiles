@@ -229,10 +229,16 @@ elif [ "$SOURCE_SELECTED" == "Video" ]; then
 fi
 
 if [ -n "$FULL_PATH" ]; then
-    matugen image "$FULL_PATH" -m dark -t "scheme-$SCHEME"
+    (
+        matugen image "$FULL_PATH" -m dark -t "scheme-$SCHEME" >/dev/null 2>&1
 
-    pgrep -x waybar > /dev/null && pkill -SIGUSR2 waybar
-    pgrep -x mako > /dev/null && makoctl reload
+        pgrep -x waybar >/dev/null && pkill -SIGUSR2 waybar
+        pgrep -x mako >/dev/null && makoctl reload
+        gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark' >/dev/null 2>&1
+        sleep 0.1
+        gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark' >/dev/null 2>&1
 
-    notify-send "Wallpaper & Colors Updated" "$SELECTED_INFO (scheme: $SCHEME)" -i wallpaper
+        notify-send "Wallpaper & Colors Updated" "$SELECTED_INFO (scheme: $SCHEME)" -i wallpaper
+    ) >/dev/null 2>&1 &
+    disown
 fi
